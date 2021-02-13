@@ -3,18 +3,11 @@
   <head>
     <title>数据库</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="css/styles.css" type="text/css" rel="stylesheet"/>
-	<script>
-		$(function(){
-			$.ajax({
-			  type: "POST",
-			  url: "http://127.0.0.1:8080/phy/user/listPage",
-			  success: function(data){
-				alert(data.state);
-			  }
-			});
-		  })
-	</script>
+    <link rel="stylesheet" href="css/layui.css"  media="all">
   </head>
   <body>
     <div class="container">
@@ -31,93 +24,9 @@
             <a href="" class="search_button">查找</a>
           </div>
           <br>
-          <table class="pure-table">
-            <thead>
-              <tr>
-                <th>姓名</th>
-                <th>ID</th>
-                <th>诊断</th>
-                <th>操作者</th>
-                <th>测试时间</th>
-                <th>其他</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="pure-table-odd">
-                <td>张三</td>
-                <td>123456</td>
-                <td>ABCDE</td>
-                <td>王五</td>
-                <td>2021-02-12</td>
-                <td>ABFEDG</td>
-              </tr>
-              <tr>
-                <td>张三</td>
-                <td>123456</td>
-                <td>ABCDE</td>
-                <td>王五</td>
-                <td>2021-02-12</td>
-                <td>ABFEDG</td>
-              </tr>
-              <tr class="pure-table-odd">
-                <td>张三</td>
-                <td>123456</td>
-                <td>ABCDE</td>
-                <td>王五</td>
-                <td>2021-02-12</td>
-                <td>ABFEDG</td>
-              </tr>
-              <tr>
-                <td>张三</td>
-                <td>123456</td>
-                <td>ABCDE</td>
-                <td>王五</td>
-                <td>2021-02-12</td>
-                <td>ABFEDG</td>
-              </tr>
-              <tr class="pure-table-odd">
-                <td>张三</td>
-                <td>123456</td>
-                <td>ABCDE</td>
-                <td>王五</td>
-                <td>2021-02-12</td>
-                <td>ABFEDG</td>
-              </tr>
-              <tr>
-                <td>张三</td>
-                <td>123456</td>
-                <td>ABCDE</td>
-                <td>王五</td>
-                <td>2021-02-12</td>
-                <td>ABFEDG</td>
-              </tr>
-              <tr class="pure-table-odd">
-                <td>张三</td>
-                <td>123456</td>
-                <td>ABCDE</td>
-                <td>王五</td>
-                <td>2021-02-12</td>
-                <td>ABFEDG</td>
-              </tr>
-              <tr>
-                <td>张三</td>
-                <td>123456</td>
-                <td>ABCDE</td>
-                <td>王五</td>
-                <td>2021-02-12</td>
-                <td>ABFEDG</td>
-              </tr>
-              <tr class="pure-table-odd">
-                <td>张三</td>
-                <td>123456</td>
-                <td>ABCDE</td>
-                <td>王五</td>
-                <td>2021-02-12</td>
-                <td>ABFEDG</td>
-              </tr>
-              
-            </tbody>
-          </table>
+          <table class="layui-table" lay-data="{height: 'full-200', cellMinWidth: 80, page: true, limit:30, url:'/demo/table/user/'}">
+           
+          </table> 
         </div>
         <div class="main_middle range">
           <ul>
@@ -141,4 +50,25 @@
       </div>
       </div>
   </body>
+  <SCRIPT src="js/jquery-3.2.1.min.js"></SCRIPT>
+  <script src="js/layui.js" charset="utf-8"></script>
+  <script>
+    layui.use('table', function(){
+      var table = layui.table;
+      
+      table.render({
+        elem: '#test'
+        ,url:'http://127.0.0.1:8080/phy/user/list'
+        ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+        ,cols: [[
+          {field:'userId', width:80, title: '姓名', sort: true}
+          ,{field:'userName', width:80, title: 'ID'}
+          ,{field:'sex', width:80, title: '诊断', sort: true}
+          ,{field:'city', width:80, title: '操作者'}
+          ,{field:'sign', title: '测试时间', width: 80, minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+          ,{field:'score', title: '其他', sort: true}
+        ]]
+      });
+    });
+</script>
 </html>
