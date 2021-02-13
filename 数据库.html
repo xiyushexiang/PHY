@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>数据库</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+	<script>
+		$(function(){
+			$.ajax({
+			  type: "POST",
+			  url: "http://127.0.0.1:8080/phy/user/listPage",
+			  success: function(data){
+				alert(data.state);
+			  }
+			});
+		  })
+	</script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">数据库</div>
+      <div class="main">        
+        <div class="main_top">
+          <div class="search">
+            <span>
+              姓名：<input type="text" value="张三"/>
+              ID：<input type="text" value=""/>
+              操作人：<input type="text" value=""/>
+              测试时间：<input type="text" value=""/>
+            </span>
+            <a href="" class="search_button">查找</a>
+          </div>
+          <br>
+          <table class="pure-table">
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>ID</th>
+                <th>诊断</th>
+                <th>操作者</th>
+                <th>测试时间</th>
+                <th>其他</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="pure-table-odd">
+                <td>张三</td>
+                <td>123456</td>
+                <td>ABCDE</td>
+                <td>王五</td>
+                <td>2021-02-12</td>
+                <td>ABFEDG</td>
+              </tr>
+              <tr>
+                <td>张三</td>
+                <td>123456</td>
+                <td>ABCDE</td>
+                <td>王五</td>
+                <td>2021-02-12</td>
+                <td>ABFEDG</td>
+              </tr>
+              <tr class="pure-table-odd">
+                <td>张三</td>
+                <td>123456</td>
+                <td>ABCDE</td>
+                <td>王五</td>
+                <td>2021-02-12</td>
+                <td>ABFEDG</td>
+              </tr>
+              <tr>
+                <td>张三</td>
+                <td>123456</td>
+                <td>ABCDE</td>
+                <td>王五</td>
+                <td>2021-02-12</td>
+                <td>ABFEDG</td>
+              </tr>
+              <tr class="pure-table-odd">
+                <td>张三</td>
+                <td>123456</td>
+                <td>ABCDE</td>
+                <td>王五</td>
+                <td>2021-02-12</td>
+                <td>ABFEDG</td>
+              </tr>
+              <tr>
+                <td>张三</td>
+                <td>123456</td>
+                <td>ABCDE</td>
+                <td>王五</td>
+                <td>2021-02-12</td>
+                <td>ABFEDG</td>
+              </tr>
+              <tr class="pure-table-odd">
+                <td>张三</td>
+                <td>123456</td>
+                <td>ABCDE</td>
+                <td>王五</td>
+                <td>2021-02-12</td>
+                <td>ABFEDG</td>
+              </tr>
+              <tr>
+                <td>张三</td>
+                <td>123456</td>
+                <td>ABCDE</td>
+                <td>王五</td>
+                <td>2021-02-12</td>
+                <td>ABFEDG</td>
+              </tr>
+              <tr class="pure-table-odd">
+                <td>张三</td>
+                <td>123456</td>
+                <td>ABCDE</td>
+                <td>王五</td>
+                <td>2021-02-12</td>
+                <td>ABFEDG</td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+        <div class="main_middle range">
+          <ul>
+            <li class="range_title">显示范围：</li>
+            <li class="on">最近3月</li>
+            <li>最近6月</li>
+            <li>所有数据</li>
+            <li>自定义范围：从 <input type="text" value="2021.01.27"/> 到 <input type="text" value="2021.01.27"/></li>
+          </ul>
+
+            
+        </div>
+
+        <div class="main_bottom">
+          <div class="normal_button fl" style="margin-left: 0px;">继续</div>
+          <div class="normal_button fr">首页</div>
+          <div class="normal_button fr">新建人员</div>
+        </div>
+
+
+      </div>
+      </div>
+  </body>
+</html>
