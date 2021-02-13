@@ -13,28 +13,28 @@
           <table class="noneborder">
             <tr>
               <th class="right_align" width="25%">姓名</th>
-              <td class="left_align" width="430"><input type="text" value="" class="big_input"/></td>
+              <td class="left_align" width="430"><input id="userName" type="text" value="" class="big_input"/></td>
             </tr>
             <tr>
               <th class="right_align">ID</th>
-              <td class="left_align"><input type="text" value="" class="big_input"/></td>
+              <td class="left_align"><input id="userId" type="text" value="" class="big_input" oninput="value=value.replace(/[^\d]/g,'')"/></td>
             </tr>
             <tr>
               <th class="right_align">出生日期</th>
-              <td class="left_align"><input type="text" value="" class="big_input"/></td>
+              <td class="left_align"><input id="birthday" readonly="readonly" type="text" value="" class="big_input" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/></td>
             </tr>
             <tr>
               <th class="right_align">身高</th>
-              <td class="left_align"><input type="text" value="" class="big_input"/></td>
+              <td class="left_align"><input id="height" type="text" value="" class="big_input"/></td>
               <td class="left_align"><a href="" class="white_button">自动测量</a></td>
             </tr>
             <tr>
               <th class="right_align">医生</th>
-              <td class="left_align" colspan="2"><input type="text" value="" class="big_input"/></td>
+              <td class="left_align" colspan="2"><input id="doctor" type="text" value="" class="big_input"/></td>
             </tr>
             <tr>
               <th class="right_align">注释</th>
-              <td class="left_align"><input type="text" value="" class="big_input"/></td>
+              <td class="left_align"><input id="notes" type="text" value="" class="big_input"/></td>
             </tr>
             <tr>
               <th class="right_align"></th>
@@ -44,12 +44,111 @@
         </div>
         <div class="main_middle2"></div>
         <div class="main_bottom">
-          <div class="normal_button fl" style="margin-left: 0px;">继续</div>
-          <div class="normal_button fl">保存</div>
-          <div class="normal_button fr">数据库</div>
-          <div class="normal_button fr">重新输入</div>
+          <div id="next" class="normal_button fl" style="margin-left: 0px;">继续</div>
+          <div id="save" class="normal_button fl">保存</div>
+          <div id="dataLib" class="normal_button fr">数据库</div>
+          <div id="reset" class="normal_button fr">重新输入</div>
         </div>
       </div>
     </div>
+    <SCRIPT src="js/jquery-3.2.1.min.js"></SCRIPT>
+    <SCRIPT src="js/phy.js"></SCRIPT>
+    <script language="javascript" type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
+    <script>
+      var id = "";
+      $(function(){
+        $("#dataLib").click(function(){
+          window.location.href = "数据库.html";
+        });
+        $("#save").click(function(){
+          var userName = $("#userName").val();
+          if(new String(userName).trim()==''){
+            alert("姓名不能为空");
+            return;
+          }
+          var userId = $("#userId").val();
+          var birthday = $("#birthday").val();
+          if(new String(birthday).trim()==''){
+            alert("生日不能为空");
+            return;
+          }
+          var height = $("#height").val();
+          if(new String(height).trim()==''){
+            alert("身高不能为空");
+            return;
+          }
+          var doctor = $("#doctor").val();
+          var notes = $("#notes").val();
+
+          var isSave = "false";
+          if(userId==''){
+            $.ajax({
+              type: "POST",
+              async:false,
+              url: projPath+"/user/getNextUserId",
+              data: {} ,
+              success: function(data){
+                userId = data;
+                $("#userId").val(userId);
+                isSave = "true";
+              }
+            });
+          }else{
+            $.ajax({
+              type: "POST",
+              async:false,
+              url: projPath+"/user/unique",
+              data: {
+                    "paramName": "user_id", 
+                    "paramValue": userId
+                    } ,
+              success: function(data){
+                isSave = data;
+                if(data=="false"){
+                  alert("ID不能重复请重新输入。");
+                }
+              }
+            });
+          }
+          if(isSave=="true"){
+            $.ajax({
+              type: "POST",
+              async:false,
+              url: projPath+"/user/insert",
+              data: {
+                    "userName": userName, 
+                    "userId": userId,
+                    "birthday": birthday,
+                    "height": height,
+                    "doctor": doctor,
+                    "notes": notes 
+                    } ,
+              success: function(data){
+                id=data.obj;
+                alert("保存成功。");
+                $("#save").unbind("click");
+                $("#save").css("background","#adadad");
+              }
+            });
+          }
+          
+        });
+        $("#reset").click(function(){
+          $("#userName").val("");
+          $("#userId").val("");
+          $("#birthday").val("");
+          $("#height").val("");
+          $("#doctor").val("");
+          $("#notes").val("");
+        });
+        $("#next").click(function(){
+          if(id==''){
+            alert("请先保存人员信息");
+          }else{
+            window.location.href = "选择人员.html?id="+id;
+          }
+        });
+      })
+  </script>
   </body>
 </html>

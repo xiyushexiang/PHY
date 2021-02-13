@@ -58,7 +58,7 @@ body {
     }
   .main_top{
     width:100%;
-    min-height: 600px;
+   /* min-height: 600px;*/
     margin:0 auto;
     padding:26px 0;
     background:#f3f3f3;
