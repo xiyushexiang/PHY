@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="css/styles.css" type="text/css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/layui.css"  media="all">
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
   </head>
   <body>
     <div class="container">
@@ -16,59 +16,131 @@
         <div class="main_top">
           <div class="search">
             <span>
-              姓名：<input type="text" value="张三"/>
-              ID：<input type="text" value=""/>
-              操作人：<input type="text" value=""/>
-              测试时间：<input type="text" value=""/>
+              姓名：<input id="search_userName" type="text" value=""/>
+              ID：<input id="search_userId" type="text" value=""/>
+              <!--操作人：<input id="" type="text" value=""/>
+              测试时间：<input id="" type="text" value=""/>-->
             </span>
-            <a href="" class="search_button">查找</a>
+            <a id="search" class="search_button">查找</a>
           </div>
           <br>
-          <table class="layui-table" lay-data="{height: 'full-200', cellMinWidth: 80, page: true, limit:30, url:'/demo/table/user/'}">
+          <table class="layui-table" id="userTable">
            
           </table> 
         </div>
         <div class="main_middle range">
           <ul>
             <li class="range_title">显示范围：</li>
-            <li class="on">最近3月</li>
-            <li>最近6月</li>
-            <li>所有数据</li>
-            <li>自定义范围：从 <input type="text" value="2021.01.27"/> 到 <input type="text" value="2021.01.27"/></li>
+            <li id="three">最近3月</li>
+            <li id="six" >最近6月</li>
+            <li id="all"  class="on">所有数据</li>
+            <li id="other">自定义范围：从 <input type="text" value="2021.01.27"/> 到 <input type="text" value="2021.01.27"/></li>
           </ul>
 
             
         </div>
 
         <div class="main_bottom">
-          <div class="normal_button fl" style="margin-left: 0px;">继续</div>
-          <div class="normal_button fr">首页</div>
-          <div class="normal_button fr">新建人员</div>
+          <div id="next" class="normal_button fl" style="margin-left: 0px;">继续</div>
+          <div id="index" class="normal_button fr">首页</div>
+          <div id="addUser" class="normal_button fr">新建人员</div>
         </div>
 
 
       </div>
       </div>
   </body>
+  <script src="layui/layui.js" charset="utf-8"></script>
   <SCRIPT src="js/jquery-3.2.1.min.js"></SCRIPT>
-  <script src="js/layui.js" charset="utf-8"></script>
+  <SCRIPT src="js/phy.js"></SCRIPT>
   <script>
+    var table;
     layui.use('table', function(){
-      var table = layui.table;
+      table = layui.table;
       
       table.render({
-        elem: '#test'
-        ,url:'http://127.0.0.1:8080/phy/user/list'
+        elem: '#userTable'
+        ,url: projPath+'/user/listPage'
         ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-        ,cols: [[
-          {field:'userId', width:80, title: '姓名', sort: true}
-          ,{field:'userName', width:80, title: 'ID'}
-          ,{field:'sex', width:80, title: '诊断', sort: true}
-          ,{field:'city', width:80, title: '操作者'}
-          ,{field:'sign', title: '测试时间', width: 80, minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-          ,{field:'score', title: '其他', sort: true}
+        ,height: 'full-400'
+        ,limit:20
+        ,request: {
+          pageName: 'curPage' //页码的参数名称，默认：page
+          ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        },cols: [[
+          {type:'radio', width:'4%'}
+          , {field:'userName', width:'16%', title: '姓名', sort: true}
+          ,{field:'userId', width:'16%',title: 'ID', sort: true}
+          ,{field:'diagnosis', width:'16%', title: '诊断', sort: true}
+          ,{field:'operator', width:'16%', title: '操作者', sort: true}
+          ,{field:'registerTime', title: '测试时间', width:'16%', minWidth: 100, sort: true,templet: "<div>{{layui.util.toDateString(d.registerTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"} 
+            ,{field:'other', title: '其他', width:'16%', sort: true}
         ]]
+        ,page: true
       });
     });
+
+    $(function(){
+      $("#addUser").click(function(){
+        window.location.href = "新建人员.html";
+      });
+      $("#index").click(function(){
+        window.location.href = "首页.html";
+      });
+      $("#next").click(function(){
+        var checkStatus = table.checkStatus('userTable');
+        if(checkStatus.data.length>0){
+          var id=checkStatus.data[0].id;
+          window.location.href = "选择人员.html?id="+id;
+        }else{
+          alert("请选择人员。");
+        }
+      });
+      $("#search").click(function(){
+        search("","");
+      });
+      $("#three").click(function(){
+        search("2021-01-12","2021-12-12");
+      });
+      $("#six").click(function(){
+        search("2021-01-12","2021-12-12");
+      });
+      $("#all").click(function(){
+        search("","");
+      });
+    })
+
+    function search(registerTimeBegin,registerTimeEnd){
+        var userName = $("#search_userName").val();
+        var userId = $("#search_userId").val();
+        table.render({
+          elem: '#userTable'
+          ,url: projPath+'/user/listPage?userName='+userName+'&userId='+userId+'&registerTimeBegin='+registerTimeBegin+'&registerTimeEnd='+registerTimeEnd
+          ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+          ,height: 'full-400'
+          ,limit:20
+          ,request: {
+            pageName: 'curPage' //页码的参数名称，默认：page
+            ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+          },cols: [[
+            {type:'radio', width:'4%'}
+            , {field:'userName', width:'16%', title: '姓名', sort: true}
+            ,{field:'userId', width:'16%',title: 'ID', sort: true}
+            ,{field:'diagnosis', width:'16%', title: '诊断', sort: true}
+            ,{field:'operator', width:'16%', title: '操作者', sort: true}
+            ,{field:'registerTime', title: '测试时间', width:'16%', minWidth: 100, sort: true,templet: "<div>{{layui.util.toDateString(d.registerTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"} 
+              ,{field:'other', title: '其他', width:'16%', sort: true}
+          ]]
+          ,page: true
+        });
+    }
 </script>
 </html>
+
+
+
+
+
+
+
+

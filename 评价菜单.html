@@ -25,10 +25,21 @@
         <div class="main_bottom2">
           <div class="normal_button fl" style="margin-left: 0px;">继续</div>
           <div class="normal_button fl">全部选择</div>
-          <div class="normal_button fr">主菜单</div>
+          <div id="back" class="normal_button fr">主菜单</div>
           <div class="normal_button fr">清除选择</div>
         </div>
       </div>
     </div>
+    <SCRIPT src="js/jquery-3.2.1.min.js"></SCRIPT>
+    <SCRIPT src="js/phy.js"></SCRIPT>
+    <script>
+      $(function(){
+          var id = getQueryString("id");
+          $("#back").click(function(){
+            window.location.href = "主菜单.html?id="+id;
+          });
+         
+      })
+  </script>
   </body>
 </html>

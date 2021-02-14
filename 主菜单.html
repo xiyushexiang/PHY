@@ -8,20 +8,50 @@
   <body class="main_body">
     <div class="container2">
       <div class="header2">
-        <div class="yellow_text">患者姓名：张三</div>
+        <div class="yellow_text">患者姓名：<span id="userNameSpan"></span></div>
         主菜单
       </div>
       <div class="main">
         <div class="main_top2">
-          <div class="primary_button fl">评价</div>
-          <div class="primary_button fr">训练</div>
+          <div id="evaluate" class="primary_button fl">评价</div>
+          <div id="train" class="primary_button fr">训练</div>
         </div>
         <div class="main_bottom2">
-          <div class="normal_button fl" style="margin-left: 0px;">数据库</div>
-          <div class="normal_button fr">首页</div>
-          <div class="normal_button fr">分析</div>
+          <div id="dataLib" class="normal_button fl" style="margin-left: 0px;">数据库</div>
+          <div id="index" class="normal_button fr">首页</div>
+          <div id="analysis" class="normal_button fr">分析</div>
         </div>
       </div>
     </div>
+    <SCRIPT src="js/jquery-3.2.1.min.js"></SCRIPT>
+    <SCRIPT src="js/phy.js"></SCRIPT>
+    <script language="javascript" type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
+    <script>
+      $(function(){
+        var id = getQueryString("id");
+        $.ajax({
+              type: "POST",
+              async:false,
+              url: projPath+"/user/edit",
+              data: {"id": id} ,
+              success: function(data){
+                $("#userNameSpan").html(data.userName);
+              }
+          });
+
+          $("#dataLib").click(function(){
+            window.location.href = "数据库.html";
+          });
+          $("#index").click(function(){
+            window.location.href = "首页.html";
+          });
+          $("#evaluate").click(function(){
+            window.location.href = "评价菜单.html?id="+id;
+          });
+          $("#train").click(function(){
+            
+          });
+      })
+  </script>
   </body>
 </html>
