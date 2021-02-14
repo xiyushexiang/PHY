@@ -993,3 +993,11 @@ td,th {
 .introduce{
   margin:0 2%;
 }
+.text_area{
+  width: 198px;
+  height: 160px;
+  padding:5px;
+  border: 1px solid #016bd8;
+  font-size: 18px;
+  color: #ffffff;
+}
