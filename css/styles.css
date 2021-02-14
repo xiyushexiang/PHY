@@ -511,7 +511,11 @@ td,th {
   width:420px;
   line-height: 44px;
 }
-
+.big_input2{
+  height:44px;
+  width:620px;
+  line-height: 44px;
+}
 .big_button{
   height:44px;
   width:420px;
@@ -985,4 +989,7 @@ td,th {
   color:#333333;
   font-size: 16px;
   display: block;
+}
+.introduce{
+  margin:0 2%;
 }
